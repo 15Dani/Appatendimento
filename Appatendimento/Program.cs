@@ -1,39 +1,41 @@
-﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
 namespace Appatendimento
 {
-    class Program
-    {
-        public static void CarregarDados(String nomeArq, FilaCliente filaCliente)  Throws FileNotFoundException
+    public class Program {
+        static void CarregarDados(string nomeArq, FilaCliente filaCliente)                                         
         {
+            // Abre o arquivo.
+            string[] lines = File.ReadAllLines(nomeArq);
 
-      
+            // Percorre todas as linhas do arquivo.
+            foreach (string line in lines)
+            {
+                // Qubra a linha pelo caracter coringa ";".
+                String[] detalhes = line.Split(";");
 
-       }
+                string cpf = detalhes[0];
+                string nome = detalhes[1];
+                int ta = Int32.Parse(detalhes[2]);
+                int il = Int32.Parse(detalhes[3]);
 
+                var cliente = new Cliente(cpf, nome, ta, il);
 
+                filaCliente.Enfileirar(cliente);
+            }
+        }
 
-     static void Main(string[] args)
-     {
+        static void Main(string[] args) 
+        {
+            var filaCliente = new FilaCliente();
 
-        Fila filaCliente = new Fila();
-        final String nomeArq = "dadosAlunos.txt";
+            string nomeArq = (@"C:\Users\DANI\source\repos\Appatendimento\Appatendimento\bin\ClienteAtendimento.txt");
 
-        CarregarDados(nomeArq, filaCliente);
-        Console.WriteLine(filaCliente);
-        Console.WriteLine("\n");
-        Cliente primeiro = (Cliente)filaCliente.retirar();
+            CarregarDados(nomeArq, filaCliente);
 
-        Console.WriteLine(filaCliente);
-
-
-
-
-
-
+            filaCliente.Imprimir();
+        }
+            
+        
+    }
 }
-}
-
-

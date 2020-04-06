@@ -9,20 +9,19 @@ namespace Appatendimento
         private Cliente frente;
         private Cliente tras;
 
-
+        // Método construtor.
         public FilaCliente()
         {
-            Cliente cli;
+            // Instância um novo cliente.
+            var cli = new Cliente("", "", 0, 0);
 
-           frente = cli;
-           tras = cli;
-
+            frente = cli;
+            tras = cli;
         }
 
-        // Se a fila está vazia
+        // Se a fila está vazia.
         public Boolean FilaVazia()
         {
-           
             if (frente == tras)
             {
                 return true;
@@ -35,17 +34,16 @@ namespace Appatendimento
 
         public void Enfileirar(Cliente cli)
         {
-            // inserção do novo cliente no final da fila.
+            // Inserção do novo cliente no final da fila.
             tras.proximo = cli;
 
-            // atualização do atributo de controle tras.
+            // Atualização do atributo de controle tras.
             tras = cli;
         }
 
         public Cliente Desenfileirar()
         {
-            // cli aponta para o cliente da fila que será retornado/desenfileirado, ou seja, 
-            //o primeiro cliente da fila.
+            // Cli aponta para o cliente da fila que será retornado/desenfileirado, ou seja, o primeiro cliente da fila.
             Cliente cli = frente.proximo;
 
             if (!(FilaVazia()))
@@ -63,14 +61,12 @@ namespace Appatendimento
             if (FilaVazia())
             {
                 return null;
-
             }
             else
             {
                 Cliente aux = this.frente.proximo;
                 return aux;
             }
-
         }
 
         public int ObterNumeroClientes()
@@ -107,6 +103,7 @@ namespace Appatendimento
             }
             return -1;
         }
+
         public void Imprimir()
         {
             if (FilaVazia())
@@ -121,16 +118,18 @@ namespace Appatendimento
 
                 Console.WriteLine("--------------- Fila dos Clientes ---------------------\n");
                 Console.WriteLine();
+
                 while (aux != null)
                 {
-                    Console.WriteLine("{0}º O CPF do Cliente da fila: {0}", i, aux.cpf);
-                    Console.WriteLine("{1} O Nome do Cliente da Fila {1}", i, aux.nome);
-                    Console.WriteLine("{2} O Tempo Previsto de atendimento do Cliente da Fila {2}", i, aux.Tempo_de_Atendimento_previsto);
-                    Console.WriteLine("{3} O Intervalor de leitura seguirdo do Cliente da Fila {3}", i,aux.intervalor_de_leitura_seguir);
+                    Console.WriteLine("{0}º O CPF do Cliente da fila: {1}", i, aux.Cpf);
+                    Console.WriteLine("{0} O Nome do Cliente da Fila {1}", i, aux.Nome);
+                    Console.WriteLine("{0} O Tempo Previsto de atendimento do Cliente da Fila {1}", i, aux.Tempo_de_Atendimento_previsto);
+                    Console.WriteLine("{0} O Intervalor de leitura seguirdo do Cliente da Fila {1}", i, aux.Intervalor_de_leitura_seguir);
                     Console.WriteLine();
                     aux = aux.proximo;
                     i++;
                 }
+
                 Console.WriteLine("-----------------------------------------------------------------------------");
                 Console.WriteLine("tecle ENTER para continuar...");
                 Console.ReadLine();
