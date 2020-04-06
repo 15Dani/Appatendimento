@@ -6,9 +6,10 @@ namespace Appatendimento
 {
    public class Cliente
     {
-        public string Nome { get; set; }
-        public int Cpf { get; set; }
 
+        public string Cpf { get; set; }
+        public string Nome { get; set; }
+      
         public int Tempo_de_Atendimento_previsto { get; set; }
 
         public int Intervalor_de_leitura_seguir { get; set; }

@@ -15,7 +15,7 @@ namespace Appatendimento
             //Retorna todas as linhas do arquivo em um array
             //de string, onde cada linha será um índice do array
 
-            string[] array = File.ReadAllLines(@"C:\ClienteAtendimento.txt");
+            string[] array = File.ReadAllLines(@"C:\Users\DANI\source\repos\Appatendimento\Appatendimento\bin\ClienteAtendimento.txt");
 
             //percorro o array e para cada linha
 
@@ -39,14 +39,14 @@ namespace Appatendimento
                 //o índice zero será corresponde ao Id
                 //o um ao nome e o dois ao e-mail
 
-                cliente.Nome = auxiliar[0];
-                cliente.Cpf = Convert.ToInt32(auxiliar[1]);
+                cliente.Cpf = auxiliar[0];
+                cliente.Nome = auxiliar[1];
                 cliente.Tempo_de_Atendimento_previsto = Convert.ToInt32(auxiliar[2]);
                 cliente.Intervalor_de_leitura_seguir = Convert.ToInt32(auxiliar[3]);
 
 
                 //Adiciono o objeto a lista
-                lista.Add();
+                lista.Add(cliente);
 
 
             }
@@ -56,7 +56,7 @@ namespace Appatendimento
 
             foreach (var item in lista)
             {
-                Console.WriteLine(@"Nome: {0};  Cpf: {1};  Tempo_de_Atendimento_previsto: {2};  Intervalor_de_leitura_seguir:  {3} " , item.Nome, item.Cpf, item.Tempo_de_Atendimento_previsto, item.Intervalor_de_leitura_seguir );
+                Console.WriteLine(@" Cpf: {0}; Nome: {1}; Tempo_de_Atendimento_previsto: {2};  Intervalor_de_leitura_seguir:  {3} ", item.Cpf, item.Nome,  item.Tempo_de_Atendimento_previsto, item.Intervalor_de_leitura_seguir );
                 Console.WriteLine("@---------------------------------------");
             }
 
