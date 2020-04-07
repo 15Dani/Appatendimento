@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace Appatendimento
@@ -34,21 +35,19 @@ namespace Appatendimento
 
         public void Enfileirar(Cliente cli)
         {
-            // Inserção do novo cliente no final da fila.
+           
             tras.proximo = cli;
-
-            // Atualização do atributo de controle tras.
             tras = cli;
         }
 
         public Cliente Desenfileirar()
         {
-            // Cli aponta para o cliente da fila que será retornado/desenfileirado, ou seja, o primeiro cliente da fila.
+           
             Cliente cli = frente.proximo;
 
             if (!(FilaVazia()))
             {
-                // atualização do primeiro cliente da fila.
+             
                 frente.proximo = cli.proximo;
 
                 cli.proximo = null;
@@ -104,49 +103,7 @@ namespace Appatendimento
             return -1;
         }
 
-        public FilaCliente Dividir(Cliente cli)
-        {
-            FilaCliente filaPar = new FilaCliente();
-
-            if (FilaVazia())
-            {
-                Console.WriteLine("A Fila de Clientes do Banco  está vazia! \n\n tecle ENTER para continuar...");
-                Console.ReadLine();
-            }
-            else
-            {
-                Cliente cliente;
-
-                while (!this.FilaVazia())
-                {
-                    cliente = this.Desenfileirar();
-
-                    filaPar.Enfileirar(cliente);
-                }
-
-
-                for (int i = 0; i < tamanhodafila; i++)
-                {
-                    if (i / 2 == 0)
-                    {
-                        this.tras.proximo = clipar;
-                        this.tras = this.tras.proximo;
-                        return null;
-                    }
-                    else
-                    {
-                        this.tras.proximo = climpar;
-                        this.tras = this.tras.proximo;
-                        return null;
-                    }
-
-                    return null;
-                }
-            }
-            return null;
-
-        }
-
+    
 
     public FilaCliente Copiar()
         {
@@ -184,7 +141,9 @@ namespace Appatendimento
                     Console.WriteLine("{0} O Nome do Cliente da Fila {1}", i, aux.Nome);
                     Console.WriteLine("{0} O Tempo Previsto de atendimento do Cliente da Fila {1}", i, aux.Tempo_de_Atendimento_previsto);
                     Console.WriteLine("{0} O Intervalor de leitura seguirdo do Cliente da Fila {1}", i, aux.Intervalor_de_leitura_seguir);
-                    Console.WriteLine();
+                    Console.WriteLine("");
+                    Console.WriteLine("Opções");
+                    Console.WriteLine(" ");
                     aux = aux.proximo;
                     i++;
                 }
@@ -226,6 +185,52 @@ namespace Appatendimento
             }
 
         }
+
+        public FilaCliente Dividir(Cliente cli, Cliente clipar, Cliente climpar)
+        {
+            FilaCliente filaPar = new FilaCliente();
+
+            if (FilaVazia())
+            {
+                Console.WriteLine("A Fila de Clientes do Banco  está vazia! \n\n tecle ENTER para continuar...");
+                Console.ReadLine();
+            }
+            else
+            {
+                Cliente cliente;
+
+                while (!this.FilaVazia())
+                {
+                    cliente = this.Desenfileirar();
+
+                    filaPar.Enfileirar(cliente);
+
+                }
+
+                int tamanhodafila = 0;
+
+                for (int i = 0; i < tamanhodafila; i++)
+                {
+                    if (i / 2 == 0)
+                    {
+                        this.tras.proximo = clipar;
+                        this.tras = this.tras.proximo;
+                        return null;
+                    }
+                    else
+                    {
+                        this.tras.proximo = climpar;
+                        this.tras = this.tras.proximo;
+                        return null;
+                    }
+
+                    return null;
+                }
+            }
+            return null;
+
+        }
+
 
         public Boolean VerificarExistencia(String nomeCliente)
         {
