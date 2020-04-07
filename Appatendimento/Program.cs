@@ -73,16 +73,17 @@ namespace Appatendimento
                     case 1:
                         Console.Clear();
 
-                        //Console.Write("Digite o nome do cliente: ");
+
                         string cpf = Console.ReadLine();
                         string nome = Console.ReadLine();
-                        int tempo_de_Atendimento_previsto =0; 
+                        int tempo_de_Atendimento_previsto =0;
                         int intervalor_de_leitura_seguir =0;
 
                         Cliente cliente = new Cliente(cpf,nome,tempo_de_Atendimento_previsto,intervalor_de_leitura_seguir);
                         CarregarDados(nomeArq, filaCliente);
 
                         filaCliente.Imprimir();
+
                         break;
                     case 2:
                         Console.Clear();
@@ -129,7 +130,8 @@ namespace Appatendimento
                         fila.Imprimir();
                         break;
                     case 6:
-                        //Console.Clear();
+                        Console.Clear();
+                        //cliente = fila.Dividir(cli, clipar,climpar);
                         //fila.Dividir(cli,clipar,climpar);
                         Console.WriteLine("tecle ENTER para continuar...");
                         Console.ReadLine();
