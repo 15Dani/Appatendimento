@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Text;
 
 namespace Appatendimento
@@ -14,12 +15,21 @@ namespace Appatendimento
         public FilaCliente()
         {
             // Instância um novo cliente.
+
             var cli = new Cliente("", "", 0, 0);
+
+            //string cpf = Console.ReadLine(); 
+            //string nome = Console.ReadLine();
+            //int tempo = 0;
+            //int intervalo = 0;
+
+            //var Cliente = new Cliente(cpf, nome, tempo, intervalo);
 
             frente = cli;
             tras = cli;
-        }
 
+            }
+        
         // Se a fila está vazia.
         public Boolean FilaVazia()
         {
@@ -182,6 +192,8 @@ namespace Appatendimento
                 Console.WriteLine("-----------------------------------------------------------------------------");
                 Console.WriteLine("tecle ENTER para continuar...");
                 Console.ReadLine();
+            
+            
             }
 
         }

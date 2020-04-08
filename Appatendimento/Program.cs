@@ -53,6 +53,7 @@ namespace Appatendimento
         {
             var filaCliente = new FilaCliente();
 
+            
             string nomeArq = (@"C:\Users\DANI\source\repos\Appatendimento\Appatendimento\bin\ClienteAtendimento.txt");
 
             CarregarDados(nomeArq, filaCliente);
@@ -87,10 +88,11 @@ namespace Appatendimento
                         break;
                     case 2:
                         Console.Clear();
-                        cliente = fila.Desenfileirar();
+                        cliente = filaCliente.Desenfileirar();
                         if (cliente != null)
                         {
                             Console.WriteLine("O cliente {0}, saiu da fila do atemdimento!", cliente.Nome);
+                            filaCliente.Imprimir();
                             Console.WriteLine("tecle ENTER para continuar...");
                             Console.ReadLine();
                         }
@@ -102,11 +104,12 @@ namespace Appatendimento
                         break;
                     case 3:
                         Console.Clear();
-                        cliente = fila.ObterPrimeiro();
+                        cliente = filaCliente.ObterPrimeiro();
                         if (cliente != null)
                         {
                             Console.WriteLine("O 1º Cliente da fila do atemdimento é: {0}.", cliente.Nome);
                             Console.WriteLine("Tempo de Atendimento previsto {0}.", cliente.Tempo_de_Atendimento_previsto);
+                            filaCliente.Imprimir();
                             Console.WriteLine("tecle ENTER para continuar...");
                             Console.ReadLine();
 
@@ -119,20 +122,24 @@ namespace Appatendimento
                         break;
                     case 4:
                         Console.Clear();
-                        int count = fila.ObterNumeroClientes();
+                        int count = filaCliente.ObterNumeroClientes();
                         Console.WriteLine("O número total de clientes no atemdimento é de: " + count);
+                        filaCliente.Imprimir();
                         Console.WriteLine("tecle ENTER para continuar...");
                         Console.ReadLine();
 
                         break;
                     case 5:
                         Console.Clear();
-                        fila.Imprimir();
+                        filaCliente.Imprimir();
+                        Console.WriteLine("tecle ENTER para continuar...");
+                        Console.ReadLine();
                         break;
                     case 6:
                         Console.Clear();
-                        //cliente = fila.Dividir(cli, clipar,climpar);
-                        //fila.Dividir(cli,clipar,climpar);
+                        //cliente = filaCliente.Dividir();
+                        //Console.WriteLine("O Cliente da fila a ser dividido é: {0}.", cliente.Nome);
+                        filaCliente.Imprimir();
                         Console.WriteLine("tecle ENTER para continuar...");
                         Console.ReadLine();
                         break;
@@ -140,7 +147,7 @@ namespace Appatendimento
                         Console.Clear();
                         Console.Write("Informe o nome do cliente: ");
                         nome = Console.ReadLine();
-                        if (fila.VerificarExistencia(nome))
+                        if (filaCliente.VerificarExistencia(nome))
                         {
                             Console.WriteLine("O Cliente pesquisado está na fila do atemdimento !");
                             Console.WriteLine("tecle ENTER para continuar...");
@@ -157,7 +164,7 @@ namespace Appatendimento
                         Console.Clear();
                         Console.Write("Informe o nome do cliente: ");
                         string nomeCliente = Console.ReadLine();
-                        count = fila.ObterNumClientesAFrente(nomeCliente);
+                        count = filaCliente.ObterNumClientesAFrente(nomeCliente);
                         if (count != -1)
                         {
                             Console.WriteLine("O número de clientes à frente do " + nomeCliente + " é de: " + count);
@@ -174,11 +181,12 @@ namespace Appatendimento
                         break;
                     case 9:
                         Console.Clear();
-                        FilaCliente copia = fila.Copiar();
-                        fila.ImprimirCopia(copia);
+                        FilaCliente copia = filaCliente.Copiar();
+                        filaCliente.ImprimirCopia(copia);
                         break;
                     case 10:
                         Console.Clear();
+
                         break;
                     case 11:
                         Console.Clear();
