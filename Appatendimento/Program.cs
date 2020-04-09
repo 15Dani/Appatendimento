@@ -4,10 +4,9 @@ namespace Appatendimento
 {
     public class Program
     {
-
+        const int ENFILEIRA_CLIENTE = 1;
 
         // MENU
-
         static int Menu()
         {
             int opcao = 0;
@@ -24,6 +23,7 @@ namespace Appatendimento
             Console.WriteLine(" 9 - Copiar");
             Console.WriteLine("10 - Obter tempo médio de espera");
             Console.WriteLine("11 - Sair");
+            Console.WriteLine("12 - Proximo Caixa");
             Console.WriteLine();
             Console.Write("Opção: ");
             opcao = int.Parse(Console.ReadLine());

@@ -1,4 +1,6 @@
-﻿namespace Appatendimento
+﻿using System;
+
+namespace Appatendimento
 {
     public class Cliente
    {
@@ -17,5 +19,11 @@
             this.Intervalor_de_leitura_seguir = intervalor_de_leitura_seguir;
             proximo = null;
         }
+    }
+
+    public class ClienteCaixa
+    {
+        public Guid Id { get; set; }
+        public int MyProperty { get; set; }
     }
 }
