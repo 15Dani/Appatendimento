@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Appatendimento
 {
@@ -19,11 +20,28 @@ namespace Appatendimento
             this.Intervalor_de_leitura_seguir = intervalor_de_leitura_seguir;
             proximo = null;
         }
+
+        public CaixaAtendimento CaixaAtendimento { get; set; }
     }
 
-    public class ClienteCaixa
+    public class CaixaAtendimento
     {
-        public Guid Id { get; set; }
-        public int MyProperty { get; set; }
+        public CaixaAtendimento()
+        {
+            ClienteList = new List<Cliente>();
+        }
+        public int NumeroCaixa { get; set; }
+        
+        public List<Cliente> ClienteList { get; set; }
+
+        public string NomeDoCaixa
+        {
+            get
+            {
+                return $"Caixa - {NumeroCaixa}";
+            }
+        }
+
+      
     }
 }

@@ -8,8 +8,8 @@ namespace Appatendimento
 {
    public class FilaCliente
     {
-        private Cliente frente;
-        private Cliente tras;
+        public Cliente frente;
+        public Cliente tras;
 
         // Método construtor.
         public FilaCliente()

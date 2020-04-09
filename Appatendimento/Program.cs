@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+
 namespace Appatendimento
 {
     public class Program
     {
-        const int ENFILEIRA_CLIENTE = 1;
+        const int MAX_LIMITE_CAIXA_ATENDIMENTO = 5;
+        const int MAX_LIMITE_CLIENTE = 25;
+        private static List<CaixaAtendimento> CaixaAtendimentoList = new List<CaixaAtendimento>();
 
         // MENU
         static int Menu()
@@ -23,7 +28,8 @@ namespace Appatendimento
             Console.WriteLine(" 9 - Copiar");
             Console.WriteLine("10 - Obter tempo médio de espera");
             Console.WriteLine("11 - Sair");
-            Console.WriteLine("12 - Proximo Caixa");
+            Console.WriteLine("12 - Adicionar Cliente no Caixa");
+            Console.WriteLine("13 - Listar Clientes de um Caixa Específico");
             Console.WriteLine();
             Console.Write("Opção: ");
             opcao = int.Parse(Console.ReadLine());
@@ -45,16 +51,69 @@ namespace Appatendimento
 
                 var cliente = new Cliente(cpf, nome, ta, il);
 
+                //cliente.CaixaAtendimento = ObterClienteCaixa(cpf);
+                FabricarCaixaAtendimento();
                 filaCliente.Enfileirar(cliente);
             }
+        }
+
+        private static CaixaAtendimento ObterClienteCaixa(string cpf)
+        {
+            var clienteCaixa = new CaixaAtendimento();
+            //clienteCaixa.NumeroCaixa = clienteCaixa.GetNumeroCaixaDisponivel();
+
+
+
+            return clienteCaixa;
+
+        }
+
+        private static void FabricarCaixaAtendimento()
+        {
+            if (CaixaAtendimentoList.Count == 0)
+            {
+                for (int i = 1; i <= MAX_LIMITE_CAIXA_ATENDIMENTO; i++)
+                {
+
+                    var list = new List<CaixaAtendimento>();
+                    var caixaAtendimento = new CaixaAtendimento
+                    {
+                        NumeroCaixa = 1
+                    };
+                    CaixaAtendimentoList.AddRange(new List<CaixaAtendimento>
+                {
+                    new CaixaAtendimento { NumeroCaixa = i},
+
+                });
+                }
+
+            }
+
         }
 
         static void Main(string[] args)
         {
             var filaCliente = new FilaCliente();
+            var pathRoot = AppDomain.CurrentDomain.BaseDirectory;
 
-            
-            string nomeArq = (@"C:\Users\DANI\source\repos\Appatendimento\Appatendimento\bin\ClienteAtendimento.txt");
+            string nomeArq = ($@"{pathRoot}ClienteAtendimento.txt");
+
+            // Check if file already exists. If yes, delete it.     
+            if (File.Exists(nomeArq))
+            {
+                File.Delete(nomeArq);
+            }
+            // Create a new file     
+            using (StreamWriter sw = File.CreateText(nomeArq))
+            {
+                for (int i = 1; i <= MAX_LIMITE_CLIENTE; i++)
+                {
+                    var cliente = FabricarCliente(i);
+                    sw.WriteLine($"{cliente.Cpf};{cliente.Nome};{cliente.Tempo_de_Atendimento_previsto};{cliente.Intervalor_de_leitura_seguir}");
+                }
+
+            }
+
 
             CarregarDados(nomeArq, filaCliente);
 
@@ -77,10 +136,10 @@ namespace Appatendimento
 
                         string cpf = Console.ReadLine();
                         string nome = Console.ReadLine();
-                        int tempo_de_Atendimento_previsto =0;
-                        int intervalor_de_leitura_seguir =0;
+                        int tempo_de_Atendimento_previsto = 0;
+                        int intervalor_de_leitura_seguir = 0;
 
-                        Cliente cliente = new Cliente(cpf,nome,tempo_de_Atendimento_previsto,intervalor_de_leitura_seguir);
+                        Cliente cliente = new Cliente(cpf, nome, tempo_de_Atendimento_previsto, intervalor_de_leitura_seguir);
                         CarregarDados(nomeArq, filaCliente);
 
                         filaCliente.Imprimir();
@@ -137,7 +196,8 @@ namespace Appatendimento
                         break;
                     case 6:
                         Console.Clear();
-                        //cliente = filaCliente.Dividir();
+ 
+                        //cliente = filaCliente.Dividir(cli,clipar,cliimpar);
                         //Console.WriteLine("O Cliente da fila a ser dividido é: {0}.", cliente.Nome);
                         filaCliente.Imprimir();
                         Console.WriteLine("tecle ENTER para continuar...");
@@ -194,6 +254,84 @@ namespace Appatendimento
                         Console.ReadLine();
                         break;
 
+                    case 12:
+                        Console.Clear();
+                        Console.WriteLine("Digite o número do caixa para o próximo cliente");
+                        foreach (var caixaAtendimento in CaixaAtendimentoList)
+                        {
+                            Console.WriteLine($"{caixaAtendimento.NomeDoCaixa}");
+
+                        }
+                        int numeroCaixa = Convert.ToInt32(Console.ReadLine());
+
+
+                        if (numeroCaixa > 0)
+                        {
+                            var caixaAtendimento = CaixaAtendimentoList.FirstOrDefault(x => x.NumeroCaixa.Equals(numeroCaixa));
+
+                            if (caixaAtendimento.ClienteList.Count == MAX_LIMITE_CAIXA_ATENDIMENTO)
+                            {
+                                Console.WriteLine($"Caixa já chegou a cota de clientes por fila que é {MAX_LIMITE_CAIXA_ATENDIMENTO}...");
+                                Console.WriteLine("tecle ENTER para continuar...");
+                                Console.ReadLine();
+                                break;
+                            }
+
+                            
+
+                                var imprimiCliente = filaCliente.Copiar();
+                                var aux = imprimiCliente.frente.proximo;
+                                int i = 1;
+                                while (aux != null)
+                                {
+                                    aux = aux.proximo;
+                                   
+                                    IncluirCaixaAtendimentoDisponivel(ref caixaAtendimento, aux, numeroCaixa);
+
+                                    
+                                    i++;
+                                }
+                            
+                        }
+
+                        Console.WriteLine("tecle ENTER para continuar...");
+                        Console.ReadLine();
+                        break;
+
+                    case 13:
+                        Console.Clear();
+                        Console.WriteLine("Qual número do caixa quer visualizar clientes:");
+                       
+                        int numeroCaixaVisualizarSelecionado = Convert.ToInt32(Console.ReadLine());
+
+
+                        if (numeroCaixaVisualizarSelecionado > 0)
+                        {
+                            var caixaAtendimento = CaixaAtendimentoList.FirstOrDefault(x => x.NumeroCaixa.Equals(numeroCaixaVisualizarSelecionado));
+
+                            if(caixaAtendimento != null)
+                            {
+                                Console.WriteLine($"##----CAIXA--Nº {caixaAtendimento.NumeroCaixa} --#");
+                                if (caixaAtendimento.ClienteList.Count == 0)
+                                {
+                                   
+                                    Console.WriteLine($"Nenhum cliente foi registrado na fila desse caixa");
+                                 
+                                }
+                                foreach (var clienteCaixa in caixaAtendimento.ClienteList)
+                                {
+
+                                    Console.WriteLine($"Cleinte Nome: {clienteCaixa.Nome} CPF:{clienteCaixa.Cpf}");
+                                }
+                            }
+                            
+
+                        }
+
+                        Console.WriteLine("tecle ENTER para continuar...");
+                        Console.ReadLine();
+                        break;
+
                     default:
                         Console.Clear();
                         Console.WriteLine("Opção inválida! tecle ENTER para continuar...");
@@ -202,6 +340,29 @@ namespace Appatendimento
 
                 }
             } while (opcao != 11);
+        }
+
+        private static void IncluirCaixaAtendimentoDisponivel(ref CaixaAtendimento caixaAtendimento, Cliente aux, int numeroCaixa)
+        {
+            if (caixaAtendimento != null & caixaAtendimento.ClienteList.Count < MAX_LIMITE_CAIXA_ATENDIMENTO)
+            {
+                caixaAtendimento.ClienteList.Add(aux);
+            }
+
+
+        }
+
+        private static Cliente FabricarCliente(int numberCliente)
+        {
+            var tempoAtendimentoPrevisto = GeradorDeTempo(1, 30);
+            var tempoIntervaloLeitura = GeradorDeTempo(0, 10);
+            return new Cliente(Guid.NewGuid().ToString().Substring(0, 6), $"Cliente - {numberCliente}", tempoAtendimentoPrevisto, tempoIntervaloLeitura);
+        }
+
+        private static int GeradorDeTempo(int min, int max)
+        {
+            var random = new Random();
+            return random.Next(min, max);
         }
     }
 }
